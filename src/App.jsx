@@ -33,6 +33,7 @@ function App() {
   ];
 
   const [tasks, setTasks] = useState(Tasks);
+  const [filter, setFilter] = useState("all");
 
   const addTask = (newTask) => {
     const taskWithId = {
@@ -55,10 +56,20 @@ function App() {
       ),
     );
   };
+
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "completed") return task.completed;
+    if (filter === "pending") return !task.completed;
+    return true;
+  });
+
   return (
     <>
       <TaskForm onTaskSubmit={addTask} />
-      {tasks.map((task) => (
+      <button onClick={() => setFilter("all")}>All</button>
+      <button onClick={() => setFilter("completed")}>Completed</button>
+      <button onClick={() => setFilter("pending")}>Pending</button>
+      {filteredTasks.map((task) => (
         <div key={task.id}>
           <h2>{task.title}</h2>
           <p>{task.description}</p>
