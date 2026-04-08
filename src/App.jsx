@@ -28,6 +28,7 @@ function App() {
   };
   return (
     <>
+      <h1>Task Manager</h1>
       <TaskForm onTaskSubmit={addTask} />
       <button onClick={() => setFilter("all")}>All</button>
       <button onClick={() => setFilter("completed")}>Completed</button>
