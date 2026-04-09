@@ -7,9 +7,12 @@ import {
   Suspense,
 } from "react";
 import reducer from "./Reducers/taskreducer";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
+import TaskForms from "./Pages/TaskForms";
 
 const TaskForm = lazy(() => import("./Components/TaskForm"));
+const Home = lazy(() => import("./Pages/Home"));
 
 function App() {
   const Tasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -44,21 +47,18 @@ function App() {
     dispatch({ type: "CLEAR_TASKS" });
   };
 
-  const totalTasks = tasks.length;
-  const completedTasks = tasks.filter((task) => task.completed).length;
-  const pendingTasks = tasks.filter((task) => !task.completed).length;
-
   return (
     <>
       <h1>Task Manager</h1>
 
-      <h3>Total: {totalTasks}</h3>
-      <h3>Completed: {completedTasks}</h3>
-      <h3>Pending: {pendingTasks}</h3>
-
-      <Suspense fallback={<p>Loading...</p>}>
-        <TaskForm onTaskSubmit={addTask} />
-      </Suspense>
+      <BrowserRouter>
+        <Suspense fallback={<p>Loading...</p>}>
+          <Routes>
+            <Route path="/" element={<Home tasks={tasks} />} />
+            <Route path="/add" element={<TaskForms addTask={addTask} />} />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
 
       <button onClick={handleTasksUI}>Clear</button>
       <button onClick={() => setFilter("all")}>All</button>
