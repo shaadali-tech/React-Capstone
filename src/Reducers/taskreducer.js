@@ -16,8 +16,8 @@ function reducer(state, action) {
     });
   }
 
-  if (action.type === "CLEAR TASKS") {
-    return (tasks = []);
+  if (action.type === "CLEAR_TASKS") {
+    return [];
   }
 
   return state;
