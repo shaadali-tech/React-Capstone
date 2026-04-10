@@ -1,6 +1,7 @@
 import { useReducer, useEffect, lazy, Suspense } from "react";
 import reducer from "./Reducers/taskreducer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 const Navbar = lazy(() => import("./Pages/Navigation"));
@@ -28,18 +29,21 @@ function App() {
 
   return (
     <>
-      <h1>Task Manager</h1>
-
       <BrowserRouter>
-        <Suspense fallback={<p>Loading...</p>}>
+        <Suspense fallback={
+          <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        }>
           <Navbar />
-          <Routes>
-            <Route
-              path="/"
-              element={<Home tasks={tasks} dispatch={dispatch} />}
-            />
-            <Route path="/add" element={<TaskForms addTask={addTask} />} />
-          </Routes>
+          <main className="min-vh-100 bg-light">
+            <Routes>
+              <Route path="/" element={<Home tasks={tasks} dispatch={dispatch} />} />
+              <Route path="/add" element={<TaskForms addTask={addTask} />} />
+            </Routes>
+          </main>
         </Suspense>
       </BrowserRouter>
     </>
